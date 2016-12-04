@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/unfiltered/unfiltered-oauth2-server.g8.svg?branch=master)](https://travis-ci.org/unfiltered/unfiltered-oauth2-server.g8)
 
-Provides a dummy skeleton of an unfiltere oauth2 server setup
+Provides a dummy skeleton of an unfiltered oauth2 server setup
  
 To kick start a remote template
 
