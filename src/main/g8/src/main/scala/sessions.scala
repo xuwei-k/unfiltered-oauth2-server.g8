@@ -2,7 +2,6 @@ package $package$
 
 import unfiltered.oauth2.ResourceOwner
 import unfiltered.request.{ Cookies, HttpRequest }
-import unfiltered.Cookie
 
 /**
  * Sessions provides a dummy means of detecting of a resource owner
@@ -20,8 +19,8 @@ object Sessions {
   def fromRequest[T](r: HttpRequest[T]) =
     r match {
       case Cookies(cookies) => cookies("sid") match {
-        case Some(Cookie(_, value, _, _, _, _)) =>
-          get(value)
+        case Some(c) =>
+          get(c.value)
         case _ =>  None
       }
     }

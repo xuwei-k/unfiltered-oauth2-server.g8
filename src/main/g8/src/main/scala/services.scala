@@ -1,10 +1,6 @@
 package $package$
 
 import unfiltered.request._
-import unfiltered.response._
-import unfiltered.Cookie
-import unfiltered.filter._
-
 import unfiltered.oauth2.{ Client, ResourceOwner, RequestBundle, Service }
 
 /**
@@ -27,7 +23,7 @@ trait AppServices extends Service with Templates {
     authorizationForm(bundle, ApproveKey, DenyKey)
 
   // the client's uri could not be trusted to redirect, let the user know
-  def invalidRedirectUri(uri: Option[String], client: Option[Client]) =
+  override def invalidRedirectUri[T](req: HttpRequest[T], uri: Option[String], client: Option[Client]) =
     page(<div>missing or invalid redirect_uri</div>)
 
   // given a request, extract the currently logged in user
@@ -67,7 +63,7 @@ trait AppServices extends Service with Templates {
     owner: ResourceOwner, scopes: Seq[String],
     req: HttpRequest[T]) = true
 
-  def invalidClient = page(
+  override def invalidClient[T](req: HttpRequest[T]) = page(
     <div>invalid client</div>
   )
 }

@@ -1,20 +1,18 @@
 package $package$
 
+import unfiltered.jetty._
+import java.net.URL
+
 object Server {
-  import unfiltered.request._
-  import unfiltered.response._
-  import unfiltered.jetty._
-  import unfiltered.filter._
-  import java.net.URL
 
   def main(args: Array[String]) {
-
-    Http($port$)
+    val binding = SocketPortBinding(host = "localhost", port = $port$)
+    unfiltered.jetty.Server.portBinding(binding)
       .resources(new URL(getClass.getResource("/web/robots.txt"), "."))
       .context("/oauth") {
-        _.filter(unfiltered.oauth2.OAuthorization(AppAuth))
+        _.plan(unfiltered.oauth2.OAuthorization(AppAuth))
       }.context("/api") {
-        _.filter(Api)
-      }.filter(Authentication).run
+        _.plan(Api)
+      }.plan(Authentication).run
   }
 }

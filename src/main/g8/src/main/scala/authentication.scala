@@ -25,7 +25,7 @@ object Authentication
               val u = User(username, Some(password))
               val sid = randomUUID.toString
               Sessions.put(sid, u)
-              ResponseCookies(Cookie("sid", sid)) ~>
+              SetCookies(Cookie("sid", sid)) ~>
                 ((
                   p("client_id"), p("redirect_uri"), p("response_type")
                 ) match {
@@ -42,7 +42,7 @@ object Authentication
       }
 
     case Path("/logout") =>
-      ResponseCookies(Cookie("sid","")) ~> Redirect("/")
+      SetCookies(Cookie("sid","")) ~> Redirect("/")
 
     case Path("/connections") & r =>
       Sessions.fromRequest(r) match {
