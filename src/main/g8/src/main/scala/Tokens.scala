@@ -18,7 +18,7 @@ case class AppToken(
   */
 trait Tokens extends TokenStore {
   import java.util.HashMap
-  import scala.collection.JavaConversions._
+  import scala.collection.JavaConverters._
   import java.util.UUID.randomUUID
   private val accessTokens = new HashMap[String, AppToken]
   private val codeTokens = new HashMap[String, AppToken]
@@ -37,7 +37,7 @@ trait Tokens extends TokenStore {
     }
 
   def refreshToken(refreshToken: String) =
-    accessTokens.values().filter(_.refresh.get==refreshToken).headOption
+    accessTokens.asScala.values.find(_.refresh.get == refreshToken)
 
   def accessToken(value: String) = accessTokens.get(value)
 
@@ -107,7 +107,7 @@ trait Tokens extends TokenStore {
 
   /** @return all tokens associated with a resource owner */
   def authorizedTokens(ownerId: String): Seq[Token] =
-    accessTokens.filter(_ match {
+    accessTokens.asScala.filter(_ match {
       case (k, v) if(v.owner == ownerId) => true
       case _ => false
     }).values.toSeq
