@@ -25,6 +25,6 @@ scalaVersion := "$scala_version$"
 val unfilteredVersion = "$unfiltered_version$"
 
 libraryDependencies ++= Seq(
-  "net.databinder" %% "unfiltered-oauth2" % unfilteredVersion,
-  "net.databinder" %% "unfiltered-json4s" % unfilteredVersion
+  "ws.unfiltered" %% "unfiltered-oauth2" % unfilteredVersion,
+  "ws.unfiltered" %% "unfiltered-json4s" % unfilteredVersion
 )
