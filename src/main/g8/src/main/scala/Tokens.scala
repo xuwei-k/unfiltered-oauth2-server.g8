@@ -30,11 +30,8 @@ trait Tokens extends TokenStore {
     other.redirectUri, other.owner
   )
 
-  def token(code: String) =
-    codeTokens.get(code) match {
-      case null => None
-      case t => Some(t)
-    }
+  def token(code: String): Option[AppToken] =
+    Option(codeTokens.get(code))
 
   def refreshToken(refreshToken: String) =
     accessTokens.asScala.values.find(_.refresh.get == refreshToken)
@@ -107,10 +104,10 @@ trait Tokens extends TokenStore {
 
   /** @return all tokens associated with a resource owner */
   def authorizedTokens(ownerId: String): Seq[Token] =
-    accessTokens.asScala.filter(_ match {
+    accessTokens.asScala.filter {
       case (k, v) if(v.owner == ownerId) => true
       case _ => false
-    }).values.toSeq
+    }.values.toSeq
 
   def deleteToken(key: String) = 
     accessTokens.remove(key)
